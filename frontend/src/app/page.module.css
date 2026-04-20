@@ -1,0 +1,363 @@
+.page {
+  min-height: 100vh;
+  width: 100%;
+  scroll-snap-align: start;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+/* ─── PAGE 1: HERO ─── */
+.heroPage {
+  background: radial-gradient(ellipse at center, #1a0505 0%, #050505 70%);
+  overflow: hidden;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr auto;
+  height: 100vh;
+  padding: 20px 40px;
+}
+
+.heroTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+
+.heroLogo {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--neon-red);
+  letter-spacing: 8px;
+  text-shadow: 0 0 20px var(--neon-red-glow), 0 0 40px rgba(255, 26, 26, 0.2);
+}
+
+.heroStatus {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.statusDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--severity-low);
+  box-shadow: 0 0 10px var(--severity-low);
+  animation: pulseGlow 2s infinite;
+}
+
+.statusDotOff {
+  background: red;
+  box-shadow: 0 0 10px red;
+}
+
+.heroCenter {
+  display: grid;
+  grid-template-columns: 250px 1fr 250px;
+  gap: 20px;
+  align-items: center;
+  height: 100%;
+}
+
+.heroGlobe {
+  width: 100%;
+  height: 100%;
+  min-height: 400px;
+}
+
+.heroSide {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.statCard {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+  padding: 15px 18px;
+  animation: borderPulse 3s infinite, fadeInUp 0.6s ease-out;
+  backdrop-filter: blur(10px);
+}
+
+.statLabel {
+  font-size: 10px;
+  color: var(--text-secondary);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+
+.statValue {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--neon-red);
+  text-shadow: 0 0 15px var(--neon-red-glow);
+}
+
+.statValueGreen {
+  color: var(--severity-low);
+  text-shadow: 0 0 15px rgba(0, 255, 204, 0.4);
+}
+
+.statBar {
+  margin-top: 8px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.statBarFill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.5s ease;
+}
+
+.heroBottom {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  padding: 15px 0;
+  flex-wrap: wrap;
+}
+
+.heroMetric {
+  text-align: center;
+}
+
+.heroMetricNumber {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 16px;
+  color: var(--text-primary);
+}
+
+.heroMetricLabel {
+  font-size: 10px;
+  color: var(--text-secondary);
+  letter-spacing: 1px;
+}
+
+/* ─── COMMON PAGE STYLES ─── */
+.pageHeader {
+  padding: 30px 40px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pageTitle {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 20px;
+  color: var(--neon-red);
+  letter-spacing: 3px;
+}
+
+.pageBody {
+  padding: 0 40px 40px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+  padding: 20px;
+  backdrop-filter: blur(10px);
+  animation: fadeInUp 0.5s ease-out;
+}
+
+.panelTitle {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 13px;
+  color: var(--neon-red);
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.grid3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 15px;
+}
+
+/* Tables */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.table th {
+  text-align: left;
+  color: var(--text-secondary);
+  font-size: 11px;
+  letter-spacing: 1px;
+  padding: 8px 10px;
+  border-bottom: 1px solid rgba(255, 26, 26, 0.1);
+}
+
+.table td {
+  padding: 7px 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.table tr:hover {
+  background: rgba(255, 26, 26, 0.03);
+}
+
+/* Alerts */
+.alertRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid rgba(255, 26, 26, 0.1);
+  border-radius: 6px;
+  margin-bottom: 8px;
+  background: rgba(20, 5, 5, 0.6);
+  animation: fadeInUp 0.3s ease-out;
+}
+
+.alertIcon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.alertContent {
+  flex: 1;
+}
+
+.alertSeverity {
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.alertMessage {
+  font-size: 13px;
+  color: var(--text-primary);
+  margin-top: 4px;
+}
+
+.alertTime {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-top: 3px;
+}
+
+/* Severity badges */
+.sevCritical { color: var(--severity-critical); border-color: var(--severity-critical); }
+.sevHigh { color: var(--severity-high); border-color: var(--severity-high); }
+.sevMedium { color: var(--severity-medium); border-color: var(--severity-medium); }
+.sevLow { color: var(--severity-low); border-color: var(--severity-low); }
+
+/* Insane / Motivational overlay */
+.overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  z-index: 9000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px;
+}
+
+.overlayInsane {
+  background: radial-gradient(ellipse at center, rgba(80, 0, 0, 0.95), rgba(10, 0, 0, 0.98));
+  animation: pulseGlow 1.5s infinite;
+}
+
+.overlayMotivation {
+  background: radial-gradient(ellipse at center, rgba(0, 30, 20, 0.96), rgba(5, 5, 5, 0.98));
+}
+
+.overlayTitle {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 36px;
+  letter-spacing: 5px;
+  margin-bottom: 20px;
+}
+
+.overlayBody {
+  font-size: 22px;
+  max-width: 700px;
+  line-height: 1.6;
+}
+
+.overlayHint {
+  margin-top: 30px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+/* Scan  */
+.scanProgress {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px;
+  text-align: center;
+}
+
+/* Nav dots */
+.navDots {
+  position: fixed;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.navDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid var(--neon-red);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.navDotActive {
+  background: var(--neon-red);
+  box-shadow: 0 0 10px var(--neon-red-glow);
+  transform: scale(1.3);
+}

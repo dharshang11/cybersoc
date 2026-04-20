@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap');
+
+:root {
+  --background: #050505;
+  --panel-bg: rgba(15, 5, 5, 0.85);
+  --panel-border: rgba(255, 30, 30, 0.2);
+  --text-primary: #f0f0f0;
+  --text-secondary: #666;
+  --neon-red: #ff1a1a;
+  --neon-red-dim: #991111;
+  --neon-red-glow: rgba(255, 26, 26, 0.4);
+  --dark-red: #1a0505;
+  --severity-low: #00ffcc;
+  --severity-medium: #ffcc00;
+  --severity-high: #ff6600;
+  --severity-critical: #ff0033;
+}
+
+* { box-sizing: border-box; padding: 0; margin: 0; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--text-primary);
+  font-family: 'Share Tech Mono', monospace;
+  overflow-x: hidden;
+}
+
+h1, h2, h3 {
+  font-family: 'Orbitron', sans-serif;
+  letter-spacing: 2px;
+}
+
+/* Animations */
+@keyframes pulseGlow {
+  0% { box-shadow: 0 0 5px var(--neon-red-glow); }
+  50% { box-shadow: 0 0 25px var(--neon-red), 0 0 50px var(--neon-red-glow); }
+  100% { box-shadow: 0 0 5px var(--neon-red-glow); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes glitch {
+  0% { text-shadow: 2px 0 #ff0033, -2px 0 #00ffcc; }
+  25% { text-shadow: -2px 0 #ff0033, 2px 0 #00ffcc; }
+  50% { text-shadow: 2px -1px #ff0033, -2px 1px #00ffcc; }
+  75% { text-shadow: -1px 2px #ff0033, 1px -2px #00ffcc; }
+  100% { text-shadow: 2px 0 #ff0033, -2px 0 #00ffcc; }
+}
+
+@keyframes borderPulse {
+  0% { border-color: rgba(255, 26, 26, 0.15); }
+  50% { border-color: rgba(255, 26, 26, 0.5); }
+  100% { border-color: rgba(255, 26, 26, 0.15); }
+}
+
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+@keyframes countUp {
+  from { opacity: 0; transform: scale(0.5); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.glitch-text {
+  animation: glitch 3s infinite;
+}
+
+/* Scanline overlay */
+.scanline-overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px, transparent 2px,
+    rgba(255, 26, 26, 0.02) 2px, rgba(255, 26, 26, 0.02) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Hide scrollbar */
+::-webkit-scrollbar { display: none; }
+html { scrollbar-width: none; -ms-overflow-style: none; }
+
+/* Selection */
+::selection { background: var(--neon-red); color: #000; }
+
+/* Hide Next.js dev mode indicator */
+[data-nextjs-dialog-overlay],
+[data-nextjs-toast],
+nextjs-portal { display: none !important; }
+body > nextjs-portal { display: none !important; }
