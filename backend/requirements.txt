@@ -4,3 +4,13 @@ motor==3.5.0
 pymongo==4.8.0
 python-dotenv==1.0.1
 pydantic==2.8.0
+
+# Auth
+passlib[bcrypt]==1.7.4
+python-jose[cryptography]==3.3.0
+pyotp==2.9.0
+qrcode[pil]==7.4.2
+
+# Web Push
+pywebpush==2.0.0
+cryptography>=42.0.0

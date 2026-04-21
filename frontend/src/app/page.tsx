@@ -9,6 +9,9 @@ import {
 } from "lucide-react";
 import styles from "./page.module.css";
 import GestureControl from "../components/GestureControl";
+import AuthGuard from "../components/auth/AuthGuard";
+import UserBar from "../components/auth/UserBar";
+import { StoredUser } from "../lib/auth";
 
 const ThreatGlobe = dynamic(() => import("../components/ThreatGlobe"), { ssr: false });
 
@@ -43,7 +46,11 @@ const CYBER_QUOTES = [
   "\"In cyberspace, the attacker only has to be right once. You have to be right every time.\"",
 ];
 
-export default function SOCDashboard() {
+export default function Page() {
+  return <AuthGuard>{(user) => <SOCDashboard user={user} />}</AuthGuard>;
+}
+
+function SOCDashboard({ user }: { user: StoredUser }) {
   const [metrics, setMetrics] = useState<SystemMetric | null>(null);
   const [processes, setProcesses] = useState<ProcessObj[]>([]);
   const [connections, setConnections] = useState<NetworkConn[]>([]);
@@ -79,7 +86,9 @@ export default function SOCDashboard() {
   // ─── WEBSOCKET ───
   const connectWS = useCallback(() => {
     if (socketRef.current?.readyState === WebSocket.OPEN) return;
-    const socket = new WebSocket(WS_URL);
+    const token = typeof window !== "undefined" ? localStorage.getItem("cybersoc_token") : null;
+    const wsUrlWithAuth = token ? `${WS_URL}?token=${encodeURIComponent(token)}` : WS_URL;
+    const socket = new WebSocket(wsUrlWithAuth);
     socketRef.current = socket;
     socket.onopen = () => setConnected(true);
     socket.onclose = () => { setConnected(false); reconnectRef.current = setTimeout(connectWS, 2000); };
@@ -99,6 +108,11 @@ export default function SOCDashboard() {
           const critical = newAlerts.find(a => a.severity === "Critical");
           if (critical && !insaneRef.current) setInsaneAlert(critical);
         } else if (msg.type === "SCAN_STATUS") {
+          if (msg.data?.status === "DENIED") {
+            setScanActive(false);
+            setScanStatus(msg.data.message || "Access denied");
+            return;
+          }
           setScanActive(true);
           setScanStatus(msg.data.message || "Scanning...");
         } else if (msg.type === "SCAN_REPORT") {
@@ -173,6 +187,7 @@ export default function SOCDashboard() {
 
   return (
     <>
+      <UserBar user={user} />
 
       {/* ═══════════ PAGE 1: HERO + GLOBE ═══════════ */}
       <div className={`${styles.page} ${styles.heroPage}`} ref={el => { pageRefs.current[0] = el; }}>
@@ -317,10 +332,16 @@ export default function SOCDashboard() {
       <div className={`${styles.page}`} style={{ background: "linear-gradient(180deg, #050505, #080303)" }} ref={el => { pageRefs.current[2] = el; }}>
         <div className={styles.pageHeader}>
           <div className={styles.pageTitle}><Search size={18} style={{ display: "inline", verticalAlign: "middle", marginRight: 8 }} />DEEP SCAN</div>
-          <button onClick={triggerDeepScan} disabled={scanActive}
-            style={{ background: "transparent", border: "1px solid var(--neon-red)", color: "var(--neon-red)", padding: "8px 20px", fontFamily: "inherit", cursor: scanActive ? "not-allowed" : "pointer", opacity: scanActive ? 0.5 : 1, borderRadius: 4 }}>
-            {scanActive ? "SCANNING..." : "🖐️ SCAN NOW"}
-          </button>
+          {user.role === "admin" ? (
+            <button onClick={triggerDeepScan} disabled={scanActive}
+              style={{ background: "transparent", border: "1px solid var(--neon-red)", color: "var(--neon-red)", padding: "8px 20px", fontFamily: "inherit", cursor: scanActive ? "not-allowed" : "pointer", opacity: scanActive ? 0.5 : 1, borderRadius: 4 }}>
+              {scanActive ? "SCANNING..." : "🖐️ SCAN NOW"}
+            </button>
+          ) : (
+            <div style={{ fontSize: 11, color: "var(--text-secondary)", letterSpacing: 2, border: "1px dashed var(--panel-border)", padding: "8px 14px", borderRadius: 4 }}>
+              VIEW-ONLY · ADMIN REQUIRED
+            </div>
+          )}
         </div>
         <div className={styles.pageBody}>
           {scanActive && (

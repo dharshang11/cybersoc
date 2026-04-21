@@ -1,5 +1,44 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr, Field
 from typing import List, Optional, Dict, Any
+from datetime import datetime
+
+# ─────────────────── AUTH MODELS ───────────────────
+
+class UserRegister(BaseModel):
+    email: str
+    password: str
+    name: Optional[str] = None
+
+class UserLogin(BaseModel):
+    email: str
+    password: str
+
+class TotpVerify(BaseModel):
+    email: str
+    code: str
+
+class TotpSetupRequest(BaseModel):
+    email: str
+    password: str
+
+class UserPublic(BaseModel):
+    email: str
+    name: Optional[str] = None
+    role: str = "analyst"
+    totp_enabled: bool = False
+
+class AuditEntry(BaseModel):
+    timestamp: str
+    user_email: str
+    action: str            # e.g. "login", "register", "totp_setup", "scan_trigger", "alert_ack"
+    detail: Optional[str] = None
+    severity: str = "info" # info, warning, critical
+
+class PushSubscription(BaseModel):
+    endpoint: str
+    keys: Dict[str, str]
+
+# ─────────────────── AGENT MODELS ───────────────────
 
 class SystemMetric(BaseModel):
     cpu_percent: float
